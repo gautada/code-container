@@ -1,0 +1,35 @@
+#!/bin/ash
+#
+# entrypoint: Located at `/etc/container/entrypoint` this script is the custom
+#             entry for a container as called by `/usr/bin/container-entrypoint` set
+#             in the upstream [alpine-container](https://github.com/gautada/alpine-container).
+#             The default template is kept in
+#             [gist](https://gist.github.com/gautada/f185700af585a50b3884ad10c2b02f98)
+
+ENTRYPOINT_PARAMS="$@"
+. /etc/profile
+
+app_version() {
+ echo "1.1.1"
+}
+
+
+# if [ -z "$@" ] ; then
+#   log "-i" "entrypoint" "default"
+#   /usr/bin/pgrep mysqld_safe > /dev/null
+#   TEST=$?
+#   if [ $TEST -eq 1 ] ; then
+#   log "-i" "entrypoint" "Blocking application - $APP_NAME($(app_version))"
+#   /usr/bin/mariadbd-safe --basedir=$DATA_DIR --datadir=$DB_DIR --plugin-dir=$PUGIN_DIR
+#   # /usr/bin/mariadbd --basedir=/mnt/volumes/container --datadir=/mnt/volumes/container/db --plugin-dir=/usr/lib/mariadb/plugin --log-error=/mnt/volumes/container/db/mariadb.err --pid-file=mariadb.pid
+#  fi
+#  return 1
+#else
+# log "-i" "entrypoint" "Override default($ENTRYPOINT_PARAMS)"
+# log "-i" "entrypoint" "Detatched application - $APP_NAME($(app_version))"
+# /usr/bin/mariadbd-safe --basedir=$DATA_DIR --datadir=$DB_DIR --plugin-dir=$PUGIN_DIR >> /mnt/volumes/container/.log 2>&1 &
+#  # /usr/bin/mariadbd --basedir=/mnt/volumes/container --datadir=/mnt/volumes/container/db --plugin-dir=/usr/lib/mariadb/plugin --log-error=/mnt/volumes/container/db/mariadb.err --pid-file=mariadb.pid > /mnt/volumes/container/.log 2>&1 &
+# return 0
+#fi
+
+return 0
