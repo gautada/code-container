@@ -58,7 +58,7 @@ RUN /usr/bin/npm install --global yazl yauzl --unsafe-perm
 #    @vscode/ripgrep
 RUN /usr/bin/npm install --global spdlog xterm-headless  vscode-proxy-agent vscode-regexpp --unsafe-perm
 RUN /usr/bin/npm install --global @microsoft/1ds-core-js --unsafe-perm
-
+RUN /usr/bin/npm install --global vscode-textmate --unsafe-perm 
 
 # RUN mkdir -p /home/$USER/.config/code-server
 # COPY config.yml /home/$USER/.config/code-server/config.yaml
