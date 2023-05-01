@@ -14,5 +14,5 @@ app_version() {
 }
 
 app_entrypoint() {
- /usr/local/bin/code-server --app-name code.gautier.org
+ /usr/local/bin/code-server --app-name code.gautier.org --bind-addr 0.0.0.0:8080
 }
