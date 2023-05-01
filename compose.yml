@@ -9,8 +9,8 @@ services:
       dockerfile: Containerfile
       no_cache: true
       tags:
-        - "vscode:build"
-    image: "gautada/vscode:build"
+        - "vscode:dev"
+    image: "gautada/vscode:dev"
     environment:
       - SYSTEM_ENVIRONMENT=DEVELOPMENT
     hostname: "vscode"
