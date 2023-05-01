@@ -65,6 +65,7 @@ RUN /bin/ln -fsv /mnt/volumes/configmaps/code-server.yml /etc/container/code-ser
 
 RUN /sbin/apk add alpine-sdk bash libstdc++ libc6-compat
 RUN /sbin/apk --no-cache add git npm yarn nodejs
+RUN /usr/bin/npm install --global minimist --unsafe-perm
 RUN /usr/bin/npm config set python python3
 RUN /usr/bin/npm install --global code-server --unsafe-perm
 
