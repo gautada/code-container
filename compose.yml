@@ -8,8 +8,8 @@ services:
       dockerfile: Containerfile
       no_cache: true
       tags:
-        - "vscode:dev"
-    image: "gautada/vscode:dev"
+        - "vscode:build"
+    image: "gautada/vscode:build"
     ports:
       - "3306:3306"
       - "8080:8080"
