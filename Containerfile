@@ -46,8 +46,8 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # RUN mkdir /home/$USER/dwn
 # COPY VSCode-linux-arm64/* /home/$USER/dwn
 
-RUN /bin/ln -fsv /mnt/volumes/configmaps/config.yml /etc/container/config.yml \
- && /bin/ln -fsv /mnt/volumes/container/config.yml /mnt/volumes/configmaps/config.yml
+RUN /bin/ln -fsv /mnt/volumes/configmaps/code-server.yml /etc/container/code-server.yml \
+ && /bin/ln -fsv /mnt/volumes/container/code-server.yml /mnt/volumes/configmaps/code-server.yml
  
 RUN /sbin/apk --no-cache add build-base pkgconf
 RUN /sbin/apk --no-cache add alpine-sdk bash libstdc++ libc6-compat
