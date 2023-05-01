@@ -22,8 +22,9 @@ steps:
   commands:
   - echo "No tests are defined at this time."
   - /usr/bin/podman login --username=$DOCKERIO_USERNAME --password=$DOCKERIO_PASSWORD docker.io
-  - /usr/bin/podman tag $DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):build docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev
+  - /usr/bin/podman tag $DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev
   - /usr/bin/podman push docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev
+  - /usr/bin/podman run --name $(/usr/bin/compose-data --name):dev --interactive --tty $DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev /usr/local/bin/code-server --version |  awk -F ' ' '{print $1}'
   
 - name: integrate
   environment:
