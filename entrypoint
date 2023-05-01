@@ -15,9 +15,5 @@ app_version() {
 
 app_entrypoint() {
  /bin/mkdir -p /mnt/volumes/container/users /mnt/volumes/container/extensions
- /usr/local/bin/code-server --app-name code.gautier.org \
-                            --bind-addr 0.0.0.0:8080 \
-                            --config /etc/container/code-server.config \ 
-                            --user-data-dir /mnt/volumes/container/users \
-                            --extensions-dir /mnt/volumes/container/extensions
+ /usr/local/bin/code-server --config /etc/container/code-server.config 
 }
