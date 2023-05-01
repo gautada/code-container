@@ -24,7 +24,8 @@ steps:
   - /usr/bin/podman login --username=$DOCKERIO_USERNAME --password=$DOCKERIO_PASSWORD docker.io
   - /usr/bin/podman tag $DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev
   - /usr/bin/podman push docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev
-  - /usr/bin/podman run --name $(/usr/bin/compose-data --name) --interactive --tty $DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev /usr/local/bin/code-server --version |  awk -F ' ' '{print $1}'
+  # - /usr/bin/podman run --name $(/usr/bin/compose-data --name) --interactive --tty $DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):dev 
+  # /usr/local/bin/code-server --version |  awk -F ' ' '{print $1}'
   
 - name: integrate
   environment:
