@@ -3,13 +3,13 @@ services:
   vscode:
     build:
       args:
-        ALPINE_VERSION: "3.16.3"
+        ALPINE_VERSION: "3.16.5"
       context: .
       dockerfile: Containerfile
       no_cache: true
       tags:
         - "vscode:dev"
-    image: "vscode:dev"
+    image: "gautada/vscode:dev"
     ports:
       - "3306:3306"
       - "8080:8080"

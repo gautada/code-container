@@ -19,3 +19,6 @@ https://code.visualstudio.com/docs/devcontainers/containers
 https://github.com/coder/code-server
 
 https://github.com/microsoft/vscode
+
+NPM Install: https://coder.com/docs/code-server/latest/npm
+
