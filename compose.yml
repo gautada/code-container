@@ -10,6 +10,9 @@ services:
       tags:
         - "vscode:build"
     image: "gautada/vscode:build"
+    environment:
+      - SYSTEM_ENVIRONMENT=DEVELOPMENT
+    hostname: "vscode"
     ports:
       - "3306:3306"
       - "8080:8080"
