@@ -50,14 +50,17 @@ RUN /bin/ln -fsv /mnt/volumes/configmaps/code-server.yml /etc/container/code-ser
  && /bin/ln -fsv /mnt/volumes/container/code-server.yml /mnt/volumes/configmaps/code-server.yml
  
 RUN /sbin/apk --no-cache add build-base pkgconf
-RUN /sbin/apk --no-cache add alpine-sdk bash libstdc++ libc6-compat
 RUN /sbin/apk --no-cache add git npm yarn nodejs
+RUN /sbin/apk --no-cache add alpine-sdk bash libstdc++ libc6-compat
+RUN /usr/bin/npm config set python python3
+
 RUN /usr/bin/npm install --global minimist --unsafe-perm
 RUN /usr/bin/npm install --global code-server --unsafe-perm
-RUN /usr/bin/npm install --global yazl yauzl --unsafe-perm
+
+# RUN /usr/bin/npm install --global yazl yauzl --unsafe-perm
 #    @vscode/ripgrep
-RUN /usr/bin/npm install --global spdlog xterm-headless  vscode-proxy-agent vscode-regexpp --unsafe-perm
-RUN /usr/bin/npm install --global @microsoft/1ds-core-js --unsafe-perm
+# RUN /usr/bin/npm install --global spdlog xterm-headless  vscode-proxy-agent vscode-regexpp --unsafe-perm
+# RUN /usr/bin/npm install --global @microsoft/1ds-core-js --unsafe-perm
 # RUN /usr/bin/npm install --global vscode-textmate --unsafe-perm 
 # RUN mkdir -p /home/$USER/.config/code-server
 # COPY config.yml /home/$USER/.config/code-server/config.yaml
@@ -66,7 +69,6 @@ RUN /usr/bin/npm install --global @microsoft/1ds-core-js --unsafe-perm
 # RUN /sbin/apk add alpine-sdk bash libstdc++ libc6-compat
 # RUN /sbin/apk --no-cache add git npm yarn nodejs
 # RUN /usr/bin/npm install --global minimist --unsafe-perm
-# RUN /usr/bin/npm config set python python3
 # RUN /usr/bin/npm install --global code-server --unsafe-perm
 
 # ╭――――――――――――――――――――╮
