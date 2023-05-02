@@ -7,7 +7,7 @@ FROM gautada/alpine:$ALPINE_VERSION
 # ╰――――――――――――――――――――╯
 LABEL source="https://github.com/gautada/vscode-container.git"
 LABEL maintainer="Adam Gautier <adam@gautier.org>"
-LABEL description="A Visual Studio Code Server in a container"
+LABEL description="A Code Server (editor) in a container"
 
 # ╭――――――――――――――――――――╮
 # │ STANDARD CONFIG    │
@@ -73,6 +73,6 @@ RUN /bin/mkdir -p /home/$USER/.config/git/ \
  && /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials /home/$USER/.config/git/credentials 
 
 RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
- && /bin/ln -fsv /mnt/volumes/secrets/namesapce/ca.crt /home/$USER/.config/git/ca.crt
+ && /bin/ln -fsv /mnt/volumes/secrets/namespace/ca.crt /home/$USER/.config/git/ca.crt
 
 
