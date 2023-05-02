@@ -43,9 +43,6 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # ╭――――――――――――――――――――╮
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
-# RUN mkdir /home/$USER/dwn
-# COPY VSCode-linux-arm64/* /home/$USER/dwn
-
 RUN /bin/ln -fsv /mnt/volumes/configmaps/code-server.yml /etc/container/code-server.yml \
  && /bin/ln -fsv /mnt/volumes/container/code-server.yml /mnt/volumes/configmaps/code-server.yml
  
@@ -68,3 +65,15 @@ VOLUME /mnt/volumes/configmaps
 VOLUME /mnt/volumes/container
 EXPOSE 3306/tcp 8080/tcp
 WORKDIR /home/$USER
+
+RUN /bin/mkdir -p /home/$USER/.config/git/ \
+ && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
+ && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
+ && /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials \
+ && /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials /home/$USER/.config/git/credentials 
+
+
+RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.cofnig/git/ca.key \
+ && /bin/ln -fsv /mnt/volumes/secrets/namesapce/ca.crt /home/$USER/.cofnig/git/ca.crt
+
+
