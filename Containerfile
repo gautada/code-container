@@ -14,7 +14,7 @@ LABEL description="A Visual Studio Code Server in a container"
 # ╰――――――――――――――――――――╯
 
 # USER:
-ARG USER=vscode
+ARG USER=coder
 
 ARG UID=1001
 ARG GID=1001
