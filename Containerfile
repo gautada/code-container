@@ -73,6 +73,6 @@ RUN /bin/mkdir -p /home/$USER/.config/git/ \
  && /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials /home/$USER/.config/git/credentials 
 
 RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
- && /bin/ln -fsv /mnt/volumes/secrets/namespace/ca.crt /home/$USER/.config/git/ca.crt
+ && /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /home/$USER/.config/git/ca.crt
 
 
