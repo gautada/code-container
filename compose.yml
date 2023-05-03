@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  vscode:
+  code:
     build:
       args:
         ALPINE_VERSION: "3.16.5"
@@ -10,11 +10,11 @@ services:
       dockerfile: Containerfile
       no_cache: true
       tags:
-        - "vscode:dev"
-    image: "gautada/vscode:dev"
+        - "code:dev"
+    image: "gautada/code:dev"
     environment:
       - SYSTEM_ENVIRONMENT=DEVELOPMENT
-    hostname: "vscode"
+    hostname: "code"
     ports:
       - "3306:3306"
       - "8080:8080"
@@ -28,11 +28,11 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/mada/Workspace/vscode/container-volume
+      device: /Users/mada/Workspace/code/container-volume
   backup:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/mada/Workspace/vscode/backup-volume
+      device: /Users/mada/Workspace/code/backup-volume
       
