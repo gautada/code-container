@@ -3,7 +3,8 @@ services:
   code:
     build:
       args:
-        ALPINE_VERSION: "3.16.5"
+        ALPINE_VERSION: "dev" 
+        # "3.16.5"
         CONTAINER_VERSION: "4.12.0"
         CODESERVER_VERSION: "4.12.0"
       context: .
