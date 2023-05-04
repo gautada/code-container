@@ -54,9 +54,6 @@ RUN /usr/bin/npm config set python python3
 RUN git clone --branch v4.12.0 https://github.com/coder/code-server.git
 WORKDIR code-server
 RUN yarn global add code-server
-
-RUN /bin/rm -rf /etc/periodic/hourly/container-backup \
- && /bin/ln -fsv /usr/bin/container-backup /etc/periodic/15min/container-backup
  
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
