@@ -7,5 +7,5 @@
 
 container_backup() {
   echo "[ INFO]: Backup for `code-server`"
-  /bin/cp -a /mnt/volumes/container/* ./
+  /bin/cp -r /mnt/volumes/container/* ./
 }
