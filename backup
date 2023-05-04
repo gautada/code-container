@@ -6,5 +6,6 @@
 # in the /var/backup folder and delete the zip file.
 
 container_backup() {
+  echo "[ INFO]: Backup for `code-server`"
   /bin/cp -a /mnt/volumes/container/* ./
 }
