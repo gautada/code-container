@@ -75,4 +75,5 @@ RUN /bin/mkdir -p /home/$USER/.config/git/ \
 RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
  && /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /home/$USER/.config/git/ca.crt
 
-
+RUN /bin/rm -rf /etc/periodic/hourly/container-backup \
+ && /bin/ln -fsv /usr/bin/container-backup /etc/periodic/15min /etc/periodic/15min/container-backup
