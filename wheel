@@ -1,2 +1,1 @@
-%wheel         ALL = (ALL) NOPASSWD: /usr/sbin/lighttpd
-%wheel         ALL = (ALL) NOPASSWD: /usr/bin/mariadb-install-db
+
