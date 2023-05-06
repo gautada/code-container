@@ -7,14 +7,13 @@ FROM gautada/alpine:$ALPINE_VERSION
 # ╰――――――――――――――――――――╯
 LABEL source="https://github.com/gautada/vscode-container.git"
 LABEL maintainer="Adam Gautier <adam@gautier.org>"
-LABEL description="A Code Server (editor) in a container"
 
 # ╭――――――――――――――――――――╮
 # │ STANDARD CONFIG    │
 # ╰――――――――――――――――――――╯
 
 # USER:
-ARG USER=coder
+ARG USER=code
 
 ARG UID=1001
 ARG GID=1001
@@ -43,18 +42,21 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # ╭――――――――――――――――――――╮
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
-RUN /bin/ln -fsv /mnt/volumes/configmaps/code-server.yml /etc/container/code-server.yml \
- && /bin/ln -fsv /mnt/volumes/container/code-server.yml /mnt/volumes/configmaps/code-server.yml
- 
-RUN /sbin/apk --no-cache add build-base pkgconf
-RUN /sbin/apk --no-cache add git npm yarn nodejs
-RUN /sbin/apk --no-cache add alpine-sdk bash libstdc++ libc6-compat
-RUN /usr/bin/npm config set python python3
 
-RUN git clone --branch v4.12.0 https://github.com/coder/code-server.git
-WORKDIR code-server
-RUN yarn global add code-server
- 
+# Older VS Code build config
+# RUN /bin/ln -fsv /mnt/volumes/configmaps/code-server.yml /etc/container/code-server.yml \
+#  && /bin/ln -fsv /mnt/volumes/container/code-server.yml /mnt/volumes/configmaps/code-server.yml
+#  
+# RUN /sbin/apk --no-cache add build-base pkgconf
+# RUN /sbin/apk --no-cache add git npm yarn nodejs
+# RUN /sbin/apk --no-cache add alpine-sdk bash libstdc++ libc6-compat
+# RUN /usr/bin/npm config set python python3
+# 
+# RUN git clone --branch v4.12.0 https://github.com/coder/code-server.git
+# WORKDIR code-server
+# RUN yarn global add code-server
+
+RUN  /sbin/apk --add --no-cache tmux tpm
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
@@ -75,3 +77,9 @@ RUN /bin/mkdir -p /home/$USER/.config/git/ \
 RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
  && /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /home/$USER/.config/git/ca.crt
 
+RUN /usr/bin/yarn global add wetty
+# COPY setup-vault /home/$USER/.scripts/setup-vault
+# COPY setup-client-ca /home/$USER/.scripts/setup-client-ca
+# RUN ln -s /home/$USER/.scripts/setup-vault /home/$USER/setup-vault \
+#  && ln -s /home/$USER/.scripts/setup-client-ca /home/$USER/setup-client-ca
+# RUN /bin/mkdir -p ~/.kube
