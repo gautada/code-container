@@ -56,7 +56,7 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # WORKDIR code-server
 # RUN yarn global add code-server
 
-RUN  /sbin/apk --add --no-cache tmux tpm
+RUN /sbin/apk add --no-cache tmux tpm
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
