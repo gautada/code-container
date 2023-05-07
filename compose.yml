@@ -16,7 +16,6 @@ services:
       - SYSTEM_ENVIRONMENT=DEVELOPMENT
     hostname: "code"
     ports:
-      - "3306:3306"
       - "8080:8080"
     volumes:
       - "container:/mnt/volumes/container"

@@ -24,7 +24,7 @@ RUN /usr/sbin/addgroup -g $GID $USER \
 
 # PRIVILEGE:
 COPY wheel  /etc/container/wheel
-
+RUN /bin/ln -fsv /etc/container/wheel /etc/sudoers.d/wheel
 # BACKUP:
 COPY backup /etc/container/backup
 
@@ -57,7 +57,14 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # RUN yarn global add code-server
 
 RUN /sbin/apk add --no-cache build-base yarn npm git
+RUN /sbin/apk add --no-cache openssh-client openssh 
 RUN /sbin/apk add --no-cache tmux tpm
+RUN /sbin/apk add --no-cache neovim neovim-doc
+RUN /sbin/apk add --no-cache zsh
+RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
+
+COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
+
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
@@ -69,16 +76,17 @@ VOLUME /mnt/volumes/container
 EXPOSE 3306/tcp 8080/tcp
 WORKDIR /home/$USER
 
-RUN /bin/mkdir -p /home/$USER/.config/git/ \
- && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
- && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
- && /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials \
- && /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials /home/$USER/.config/git/credentials 
-
-RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
- && /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /home/$USER/.config/git/ca.crt
+# RUN /bin/mkdir -p /home/$USER/.config/git/ \
+#  && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
+#  && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
+#  && /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials \
+#  && /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials /home/$USER/.config/git/credentials 
+# 
+# RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
+#  && /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /home/$USER/.config/git/ca.crt 
 
 RUN /usr/bin/yarn global add wetty
+
 # COPY setup-vault /home/$USER/.scripts/setup-vault
 # COPY setup-client-ca /home/$USER/.scripts/setup-client-ca
 # RUN ln -s /home/$USER/.scripts/setup-vault /home/$USER/setup-vault \
