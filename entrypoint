@@ -35,7 +35,7 @@ app_entrypoint() {
  fi
  /home/$WETTY_USER/.yarn/bin/wetty --base / --port 8080 --ssh-host localhost --ssh-user $WETTY_USER \
                                    --ssh-auth publickey --ssh-key /home/$WETTY_USER/.ssh/id_rsa --force-ssh \
-                                   --title $WETTY_TITLE --command $WETTY_COMMAD --log-level trace
+                                   --title $WETTY_TITLE --command $WETTY_COMMAD --log-level debug
 
  # /bin/mkdir -p /mnt/volumes/container/users /mnt/volumes/container/extensions /mnt/volumes/container/code
  # /usr/local/bin/code-server --config /etc/container/code-server.yml --verbose
