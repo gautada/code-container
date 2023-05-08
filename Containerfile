@@ -61,6 +61,8 @@ RUN /sbin/apk add --no-cache openssh-client openssh
 RUN /sbin/apk add --no-cache tmux tpm
 RUN /sbin/apk add --no-cache neovim neovim-doc
 RUN /sbin/apk add --no-cache zsh
+RUN /sbin/apk add --no-cache font-fira-code-nerd font-fira-mono-nerd
+
 RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
 
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
