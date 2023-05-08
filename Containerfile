@@ -76,14 +76,14 @@ VOLUME /mnt/volumes/container
 EXPOSE 3306/tcp 8080/tcp
 WORKDIR /home/$USER
 
-# RUN /bin/mkdir -p /home/$USER/.config/git/ \
-#  && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
-#  && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
-#  && /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials \
-#  && /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials /home/$USER/.config/git/credentials 
-# 
-# RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
-#  && /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /home/$USER/.config/git/ca.crt 
+RUN /bin/mkdir -p /home/$USER/.config/git/ \
+ && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
+ && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
+ && /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials \
+ && /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials /home/$USER/.config/git/credentials 
+
+RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /home/$USER/.config/git/ca.key \
+ && /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /home/$USER/.config/git/ca.crt 
 
 RUN /usr/bin/yarn global add wetty
 
