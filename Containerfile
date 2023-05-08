@@ -61,10 +61,11 @@ RUN /sbin/apk add --no-cache openssh-client openssh
 RUN /sbin/apk add --no-cache tmux tpm
 RUN /sbin/apk add --no-cache neovim neovim-doc
 RUN /sbin/apk add --no-cache zsh
-RUN /sbin/apk add --no-cache font-fira-code-nerd font-fira-mono-nerd
+RUN /sbin/apk add --no-cache nerd-fonts-all
 
 RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
 
+RUN /bin/ln -fsv /mnt/volumes/container /Workspace
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
 
 # ╭――――――――――――――――――――╮
@@ -75,8 +76,8 @@ USER $USER
 VOLUME /mnt/volumes/backup
 VOLUME /mnt/volumes/configmaps
 VOLUME /mnt/volumes/container
-EXPOSE 3306/tcp 8080/tcp
-WORKDIR /home/$USER
+EXPOSE 8080/tcp
+WORKDIR /Workspace
 
 RUN /bin/mkdir -p /home/$USER/.config/git/ \
  && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
