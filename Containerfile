@@ -13,7 +13,7 @@ LABEL maintainer="Adam Gautier <adam@gautier.org>"
 # ╰――――――――――――――――――――╯
 
 # USER:
-ARG USER=code
+ARG USER=coder
 
 ARG UID=1001
 ARG GID=1001
