@@ -79,7 +79,8 @@ VOLUME /mnt/volumes/container
 EXPOSE 8080/tcp
 WORKDIR /Workspace
 
-COPY wettyrc /home/$USER/.wettyrc
+RUN git https://github.com/gautada/config.git /home/$USER/.config/repo
+RUN /bin/ln -fsv /home/$USER/.config/repo/public /home/$USER/.config/nvim
 
 RUN /bin/mkdir -p /home/$USER/.config/git/ \
  && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
