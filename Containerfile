@@ -79,6 +79,8 @@ VOLUME /mnt/volumes/container
 EXPOSE 8080/tcp
 WORKDIR /Workspace
 
+COPY wettyrc /home/$USER/.wettyrc
+
 RUN /bin/mkdir -p /home/$USER/.config/git/ \
  && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
  && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
