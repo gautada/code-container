@@ -18,7 +18,7 @@ ARG USER=code
 ARG UID=1001
 ARG GID=1001
 RUN /usr/sbin/addgroup -g $GID $USER \
- && /usr/sbin/adduser -D -G $USER -s /bin/ash -u $UID $USER \
+ && /usr/sbin/adduser -D -G $USER -s /bin/zsh -u $UID $USER \
  && /usr/sbin/usermod -aG wheel $USER \
  && /bin/echo "$USER:$USER" | chpasswd
 
