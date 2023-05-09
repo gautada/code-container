@@ -93,6 +93,8 @@ VOLUME /mnt/volumes/container
 EXPOSE 8080/tcp
 WORKDIR /home/$USER
 
+RUN chown $USER:$USER -R /home/$USER
+
 RUN /bin/ln -fsv /mnt/volumes/container/workspace Workspace
 RUN /bin/mkdir -p /home/$USER/.config/repo/public
 RUN git clone https://github.com/gautada/config.git /home/$USER/.config/repo/public
