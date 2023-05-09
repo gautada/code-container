@@ -65,7 +65,7 @@ RUN /sbin/apk add --no-cache nerd-fonts-all
 
 RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
 
-RUN /bin/ln -fsv /mnt/volumes/container /Workspace
+# RUN /bin/ln -fsv /mnt/volumes/container /Workspace
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
 
 # ╭――――――――――――――――――――╮
@@ -77,12 +77,14 @@ VOLUME /mnt/volumes/backup
 VOLUME /mnt/volumes/configmaps
 VOLUME /mnt/volumes/container
 EXPOSE 8080/tcp
-WORKDIR /Workspace
+WORKDIR /home/$USER
 
+RUN /bin/ln -fsv /mnt/volumes/container/workspace Workspace
 RUN /bin/mkdir -p /home/$USER/.config/repo/public
 RUN git clone https://github.com/gautada/config.git /home/$USER/.config/repo/public
 RUN /bin/ln -fsv /home/$USER/.config/repo/public/nvim /home/$USER/.config/nvim
-RUN /bin/ln -fsv /home/$USER/.config/repo/public/rc /home/$USER/.config/zshrc
+RUN /bin/ln -fsv /home/$USER/.config/repo/public/zsh /home/$USER/.config/zsh
+RUN /bin/ln -fsv /home/$USER/.config/zsh/rc /home/$USER/.config/zshrc
 RUN /bin/ln -fsv /mnt/volumes/container/users/coder/zsh/history /home/$USER/.config/.zsh_history
 
 RUN /bin/mkdir -p /home/$USER/.config/git/ \
