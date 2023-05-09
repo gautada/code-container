@@ -82,6 +82,8 @@ WORKDIR /Workspace
 RUN /bin/mkdir -p /home/$USER/.config/repo/public
 RUN git clone https://github.com/gautada/config.git /home/$USER/.config/repo/public
 RUN /bin/ln -fsv /home/$USER/.config/repo/public/nvim /home/$USER/.config/nvim
+RUN /bin/ln -fsv /home/$USER/.config/repo/public/rc /home/$USER/.config/zshrc
+RUN /bin/ln -fsv /mnt/volumes/container/users/coder/zsh/history /home/$USER/.config/.zsh_history
 
 RUN /bin/mkdir -p /home/$USER/.config/git/ \
  && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
