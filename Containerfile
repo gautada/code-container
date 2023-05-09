@@ -79,6 +79,7 @@ VOLUME /mnt/volumes/container
 EXPOSE 8080/tcp
 WORKDIR /Workspace
 
+RUN /bin/mkdir -p /home/$USER/.config/repo/public
 RUN git clone https://github.com/gautada/config.git /home/$USER/.config/repo/public
 RUN /bin/ln -fsv /home/$USER/.config/repo/public /home/$USER/.config/nvim
 
