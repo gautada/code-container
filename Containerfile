@@ -66,9 +66,9 @@ RUN /bin/ln -fsv /mnt/volumes/configmaps/kubectl.cfg /etc/container/kubectl.cfg 
  RUN /bin/mkdir -p /home/$USER/.config/ca \
  && /bin/mkdir -p /home/$USER/.config/git
 
-RUN /bin/ln -fsv /etc/container/gitconfig /etc/gitconfig \
- && /bin/ln -fsv /mnt/volumes/configmaps/gitconfig /etc/container/gitconfig \
- && /bin/ln -fsv /mnt/volumes/container/gitconfig /mnt/volumes/configmaps/gitconfig
+RUN /bin/ln -fsv /etc/container/git-config /etc/gitconfig \
+ && /bin/ln -fsv /mnt/volumes/configmaps/git-config /etc/container/git-config \
+ && /bin/ln -fsv /mnt/volumes/container/git-config /mnt/volumes/configmaps/git-config
 
 RUN /bin/ln -fsv /mnt/volumes/secrets/git-credentials /etc/container/git-credentials \
  && /bin/ln -fsv /mnt/volumes/container/git-credentials /mnt/volumes/secrets/git-credentials
@@ -94,7 +94,11 @@ VOLUME /mnt/volumes/container
 EXPOSE 8080/tcp
 WORKDIR /home/$USER
 
-# RUN chown $USER:$USER -R /home/$USER
+RUN /bin/mkdir -p /home/#USER/,config/git
+RUN /bin/ln -fsv /home/$USER/.config/repo/public/git-config /home/$USER/.config/git/config
+RUN /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig
+RUN /bin/ln -fsv /home/$USER/.config/repo/public/git-credentials /home/$USER/.config/git/credentials
+RUN /bin/ln -fsv /home/#USER/.config/git/credentials /home/$USER/.git-credentials
 
 RUN /bin/ln -fsv /mnt/volumes/container/workspace Workspace
 RUN /bin/mkdir -p /home/$USER/.config/repo/public
