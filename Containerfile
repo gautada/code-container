@@ -42,13 +42,14 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
 
-RUN /sbin/apk add --no-cache build-base yarn npm git
+RUN /sbin/apk add --no-cache build-base yarn npm 
+RUN /sbin/apk add --no-cache git
 RUN /sbin/apk add --no-cache openssh-client openssh 
 RUN /sbin/apk add --no-cache tmux tpm
 RUN /sbin/apk add --no-cache neovim neovim-doc
 RUN /sbin/apk add --no-cache zsh
 RUN /sbin/apk add --no-cache nerd-fonts-all
-RUN /sbin/apk add --no-cache buildah fuse-overlayfs podman
+RUN /sbin/apk add --no-cache buildah fuse-overlayfs podman py3-pip
 
 RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
 
