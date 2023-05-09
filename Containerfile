@@ -57,6 +57,27 @@ RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
 
 RUN /usr/bin/pip3 install podman-compose
 
+RUN /bin/ln -fsv /mnt/volumes/configmaps/kubectl.cfg /etc/container/kubectl.cfg \
+ && /bin/ln -fsv /mnt/volumes/container/kubectl.cfg /mnt/volumes/configmaps/kubectl.cfg \
+ && /bin/mkdir -p /home/$USER/.kube \
+ && /bin/ln -fsv /etc/container/kubectl.cfg /home/$USER/.kube/config
+ 
+ RUN /bin/mkdir -p /home/$USER/.config/ca \
+ && /bin/mkdir -p /home/$USER/.config/git
+
+RUN /bin/ln -fsv /etc/container/gitconfig /etc/gitconfig \
+ && /bin/ln -fsv /mnt/volumes/configmaps/gitconfig /etc/container/gitconfig \
+ && /bin/ln -fsv /mnt/volumes/container/gitconfig /mnt/volumes/configmaps/gitconfig
+
+RUN /bin/ln -fsv /mnt/volumes/secrets/git-credentials /etc/container/git-credentials \
+ && /bin/ln -fsv /mnt/volumes/container/git-credentials /mnt/volumes/secrets/git-credentials
+
+RUN /bin/ln -fsv /mnt/volumes/secrets/client-auth.crt /etc/container/client-auth.crt \
+ && /bin/ln -fsv /mnt/volumes/container/client-auth.crt /mnt/volumes/secrets/client-auth.crt 
+
+RUN /bin/ln -fsv /mnt/volumes/secrets/client-auth.key /etc/container/client-auth.key \
+ && /bin/ln -fsv /mnt/volumes/container/client-auth.key /mnt/volumes/secrets/client-auth.key
+
 # RUN /bin/ln -fsv /mnt/volumes/container /Workspace
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
 
@@ -81,10 +102,10 @@ RUN /bin/ln -fsv /home/$USER/.config/repo/public/zsh /home/$USER/.config/zsh
 RUN /bin/ln -fsv /home/$USER/.config/zsh/rc /home/$USER/.config/zshrc
 RUN /bin/ln -fsv /mnt/volumes/container/users/coder/zsh/history /home/$USER/.config/.zsh_history
 
-RUN /bin/mkdir -p /home/$USER/.config/git/ \
- && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
- && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
- && /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials 
+# RUN /bin/mkdir -p /home/$USER/.config/git/ \
+#  && /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig \
+#  && /bin/ln -fsv /mnt/volumes/configmaps/git-config  /home/$USER/.config/git/config \
+#  && /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials 
 
 
 RUN /bin/mkdir -p /tmp/podman-run-1001/podman
