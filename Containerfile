@@ -38,7 +38,6 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
  && /bin/chown -R $USER:$USER /var/backup \
  && /bin/chown -R $USER:$USER /tmp/backup
 
-
 # ╭――――――――――――――――――――╮
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
@@ -55,6 +54,8 @@ RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/e
 
 RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
  && /usr/sbin/usermod --add-subgids 100000-165535 $USER
+
+RUN /usr/bin/pip3 install podman-compose
 
 # RUN /bin/ln -fsv /mnt/volumes/container /Workspace
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
