@@ -82,6 +82,7 @@ RUN /bin/ln -fsv /mnt/volumes/secrets/client-auth.key /etc/container/client-auth
 # RUN /bin/ln -fsv /mnt/volumes/container /Workspace
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
 
+RUN chown $USER:$USER -R /home/$USER
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
@@ -93,7 +94,7 @@ VOLUME /mnt/volumes/container
 EXPOSE 8080/tcp
 WORKDIR /home/$USER
 
-RUN chown $USER:$USER -R /home/$USER
+# RUN chown $USER:$USER -R /home/$USER
 
 RUN /bin/ln -fsv /mnt/volumes/container/workspace Workspace
 RUN /bin/mkdir -p /home/$USER/.config/repo/public
