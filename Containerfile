@@ -70,14 +70,16 @@ RUN /bin/ln -fsv /etc/container/git-config /etc/gitconfig \
  && /bin/ln -fsv /mnt/volumes/configmaps/git-config /etc/container/git-config \
  && /bin/ln -fsv /mnt/volumes/container/git-config /mnt/volumes/configmaps/git-config
 
-RUN /bin/ln -fsv /mnt/volumes/secrets/git-credentials /etc/container/git-credentials \
- && /bin/ln -fsv /mnt/volumes/container/git-credentials /mnt/volumes/secrets/git-credentials
+RUN /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials \
+                 /etc/container/git-credentials \
+ && /bin/ln -fsv /mnt/volumes/container/git-credentials \
+                 /mnt/volumes/secrets/container/git-credentials
 
-RUN /bin/ln -fsv /mnt/volumes/secrets/client-auth.crt /etc/container/client-auth.crt \
- && /bin/ln -fsv /mnt/volumes/container/client-auth.crt /mnt/volumes/secrets/client-auth.crt 
+RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /etc/container/ca.crt \
+ && /bin/ln -fsv /mnt/volumes/container/ca.crt /mnt/volumes/secrets/container/ca.crt 
 
-RUN /bin/ln -fsv /mnt/volumes/secrets/client-auth.key /etc/container/client-auth.key \
- && /bin/ln -fsv /mnt/volumes/container/client-auth.key /mnt/volumes/secrets/client-auth.key
+RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /etc/container/ca.key \
+ && /bin/ln -fsv /mnt/volumes/container/ca.key /mnt/volumes/secrets/contaier/ca.key
 
 # RUN /bin/ln -fsv /mnt/volumes/container /Workspace
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
