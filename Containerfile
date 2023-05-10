@@ -63,8 +63,8 @@ RUN /bin/ln -fsv /mnt/volumes/configmaps/kubectl.cfg /etc/container/kubectl.cfg 
  && /bin/mkdir -p /home/$USER/.kube \
  && /bin/ln -fsv /etc/container/kubectl.cfg /home/$USER/.kube/config
  
- RUN /bin/mkdir -p /home/$USER/.config/ca \
- && /bin/mkdir -p /home/$USER/.config/git
+ # RUN /bin/mkdir -p /home/$USER/.config/ca \
+ # && /bin/mkdir -p /home/$USER/.config/git
 
 RUN /bin/ln -fsv /etc/container/git-config /etc/gitconfig \
  && /bin/ln -fsv /mnt/volumes/configmaps/git-config /etc/container/git-config \
