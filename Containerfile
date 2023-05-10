@@ -62,9 +62,6 @@ RUN /bin/ln -fsv /mnt/volumes/configmaps/kubectl.cfg /etc/container/kubectl.cfg 
  && /bin/ln -fsv /mnt/volumes/container/kubectl.cfg /mnt/volumes/configmaps/kubectl.cfg \
  && /bin/mkdir -p /home/$USER/.kube \
  && /bin/ln -fsv /etc/container/kubectl.cfg /home/$USER/.kube/config
- 
- # RUN /bin/mkdir -p /home/$USER/.config/ca \
- # && /bin/mkdir -p /home/$USER/.config/git
 
 RUN /bin/ln -fsv /etc/container/git-config /etc/gitconfig \
  && /bin/ln -fsv /mnt/volumes/configmaps/git-config /etc/container/git-config \
@@ -80,6 +77,8 @@ RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /etc/container/ca.crt \
 
 RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /etc/container/ca.key \
  && /bin/ln -fsv /mnt/volumes/container/ca.key /mnt/volumes/secrets/container/ca.key
+
+RUN mkdir -p /mnt/volumes/compose/container /mnt/volumes/compose/backup
 
 # RUN /bin/ln -fsv /mnt/volumes/container /Workspace
 COPY --chown=$USER tmux.conf /home/$USER/.config/tmux/tmux.conf
