@@ -97,8 +97,7 @@ WORKDIR /home/$USER
 # RUN /bin/mkdir -p /home/$USER/.config/git
 RUN /bin/ln -fsv /home/$USER/.config/repo/public/git /home/$USER/.config/git
 RUN /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig
-RUN /bin/ln -fsv /home/$USER/.config/repo/public/git/credentials
-RUN /bin/ln -fsv /home/#USER/.config/git/credentials /home/$USER/.git-credentials
+RUN /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials
 
 RUN /bin/ln -fsv /mnt/volumes/container/workspace Workspace
 RUN /bin/mkdir -p /home/$USER/.config/repo/public
