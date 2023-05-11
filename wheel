@@ -13,3 +13,5 @@
 %wheel         ALL = (ALL) NOPASSWD: /usr/bin/ssh-keygen
 
 %wheel         ALL = (ALL) NOPASSWD: /usr/bin/tee
+
+%wheel         ALL = (ALL) NOPASSWD: /sbin/apk
