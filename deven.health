@@ -1,0 +1,6 @@
+#!/bin/ash
+
+
+__health_check() {
+ _health_assert "0" "0" "Default health check"
+}
