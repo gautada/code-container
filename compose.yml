@@ -3,9 +3,8 @@ services:
   deven:
     build:
       args:
-        ALPINE_VERSION: "latest"
-        CONTAINER_VERSION: "4.12.0"
-        CODESERVER_VERSION: "4.12.0"
+        DEBIAN_VERSION: "latest"
+        CONTAINER_VERSION: "0.0.1"
       context: .
       dockerfile: container.build
       no_cache: true
@@ -14,22 +13,22 @@ services:
     image: "deven:dev"
     hostname: "deven"
     ports:
-      - "8080:8080"
-    volumes:
-      - "container:/mnt/volumes/container"
-      - "backup:/mnt/volumes/backup"
-        
-volumes:
-  container:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /Users/mada/Workspace/code/container-volume
-  backup:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /Users/mada/Workspace/code/backup-volume
+      - "8888:8080"
+#     volumes:
+#       - "container:/mnt/volumes/container"
+#       - "backup:/mnt/volumes/backup"
+#         
+# volumes:
+#   container:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /Users/mada/Workspace/code/container-volume
+#   backup:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /Users/mada/Workspace/code/backup-volume
       
