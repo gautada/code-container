@@ -10,6 +10,7 @@ services:
       no_cache: true
       tags:
         - "deven:dev"
+        - "gautada/deven:dev"
     image: "deven:dev"
     hostname: "deven"
     ports:

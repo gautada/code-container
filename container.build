@@ -33,9 +33,6 @@ RUN /usr/sbin/groupmod --new-name $USER busr
 
 RUN /sbin/apk add --no-cache nodejs \
  
- # ** VERSION CONTROL **
- # && /usr/bin/apt-get install --yes git \
-
  # ** OPEN SSH **
  && /sbin/apk add --no-cache openssh-server openssh-client \
  
@@ -59,7 +56,7 @@ RUN /bin/ln -fsv /mnt/volumes/container/Workspace /home/$USER/Workspace \
 
 WORKDIR /
 COPY --from=build /wetty.tgz /wetty.tgz
-RUN /bin/tar -zxvf /wetty.tgz \
+RUN /bin/tar -zxf /wetty.tgz \
  && /bin/rm -f /wetty.tgz
 
 # ╭――――――――――――――――――――╮
