@@ -1,10 +1,9 @@
-ARG DEBIAN_VERSION="latest"
-FROM gautada/debian:$DEBIAN_VERSION
+ARG ALPINE_VERSION="dev"
+FROM gautada/alpine:$ALPINE_VERSION
 
 # ╭――――――――――――――――――――╮
 # │ METADATA           │
 # ╰――――――――――――――――――――╯
-LABEL version="2022-11-17"
 LABEL source="https://github.com/gautada/deven-container.git"
 LABEL maintainer="Adam Gautier <adam@gautier.org>"
 LABEL description="DEVelopment ENvironment (deven) container."
@@ -19,71 +18,52 @@ RUN /usr/sbin/groupmod --new-name $USER debian
 # ╭――――――――――――――――――――╮
 # │ PACKAGES           │
 # ╰――――――――――――――――――――╯
-
 # build-base yarn npm git openssh-client openssh tmux tpm neovim neovim-doc
 # zsh nerd-fonts-all podman python3-pip
 # RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
-
 # RUN echo "deb http://http.us.debian.org/debian/ testing non-free contrib main" >> /etc/apt/sources.list
 
-RUN /usr/bin/apt-get update \
- && /usr/bin/apt-get upgrade --yes \ 
- # && /usr/bin/apt-get install --yes build-essential \
+RUN /sbin/apk add --no-cache build-essential \
+ 
  # ** NODEJS for WETTY **
  # && /usr/bin/apt-get install --yes npm \
  
  # ** VERSION CONTROL **
- && /usr/bin/apt-get install --yes git \
+ # && /usr/bin/apt-get install --yes git \
+
  # ** OPEN SSH **
- && /usr/bin/apt-get install --yes openssh-server openssh-client \
+ && /sbin/apk add --no-cache openssh-server openssh-client \
+ # && /usr/bin/apt-get install --yes openssh-server openssh-client \
  
  # ** TEXT EDITOR **
+ # && /sbin/apk add --no-cache nvim \
  # && /usr/bin/apt-get install --yes neovim \
  
  # ** CONTAINER MANAGER **
- && /usr/bin/apt-get install --yes podman \
+ && /sbin/apk add --no-cache podman \
+ # && /usr/bin/apt-get install --yes podman \
  # ** PYTHON PACKAGES **
- && /usr/bin/apt-get install --yes python3-pip \
- && /usr/bin/apt-get autoclean \
- && /usr/bin/apt-get clean
+ && /sbin/apk add --no-cache py3-pip \
+ # && /usr/bin/apt-get install --yes python3-pip \
+ # && /usr/bin/apt-get autoclean \
+ # && /usr/bin/apt-get clean
 
 RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
  && /usr/sbin/usermod --add-subgids 100000-165535 $USER
 
 RUN /usr/bin/pip3 install podman-compose
 
-WORKDIR /tmp
-RUN /usr/bin/curl -fsSLO --compressed https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-arm64.tar.xz  \
- && /bin/tar -xJf "/tmp/node-v18.16.0-linux-arm64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
- && /bin/ln -fsv /usr/local/bin/node /usr/local/bin/nodejs \
- && /bin/rm -fv /tmp/node-v18.16.0-linux-arm64.tar.xz \
- && /usr/local/bin/npm install --global yarn \
- && /usr/local/bin/yarn global add wetty
-WORKDIR /
+# WORKDIR /tmp
+# RUN /usr/bin/curl -fsSLO --compressed https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-arm64.tar.xz  \
+#  && /bin/tar -xJf "/tmp/node-v18.16.0-linux-arm64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
+#  && /bin/ln -fsv /usr/local/bin/node /usr/local/bin/nodejs \
+#  && /bin/rm -fv /tmp/node-v18.16.0-linux-arm64.tar.xz \
+#  && /usr/local/bin/npm install --global yarn \
+#  && /usr/local/bin/yarn global add wetty
+# WORKDIR /
 
 RUN /bin/ln -fsv /mnt/volumes/container/Workspace /home/$USER/Workspace \
  && /bin/ln -fsv /mnt/volumes/container/Compose /home/$USER/Compose
-
-# ** KUBECTL **
-RUN /bin/ln -fsv /mnt/volumes/configmaps/kubectl.cfg /etc/container/kubectl.cfg \
- && /bin/ln -fsv /mnt/volumes/container/kubectl.cfg /mnt/volumes/configmaps/kubectl.cfg 
-
-# ** GIT -- CONFIG **
-RUN /bin/ln -fsv /etc/container/git-config /etc/gitconfig \
- && /bin/ln -fsv /mnt/volumes/configmaps/git-config /etc/container/git-config \
- && /bin/ln -fsv /mnt/volumes/container/git-config /mnt/volumes/configmaps/git-config 
-
-# ** GIT -- CREDENTIALS **
-RUN /bin/ln -fsv /mnt/volumes/secrets/container/git-credentials \
-                 /etc/container/git-credentials \
- && /bin/ln -fsv /mnt/volumes/container/git-credentials \
-                 /mnt/volumes/secrets/container/git-credentials 
-
-# ** CERTAUTH **
-RUN /bin/ln -fsv /mnt/volumes/secrets/container/ca.crt /etc/container/ca.crt \
- && /bin/ln -fsv /mnt/volumes/container/ca.crt /mnt/volumes/secrets/container/ca.crt \
- && /bin/ln -fsv /mnt/volumes/secrets/container/ca.key /etc/container/ca.key \
- && /bin/ln -fsv /mnt/volumes/container/ca.key /mnt/volumes/secrets/container/ca.key
 
 # ╭――――――――――――――――――――╮
 # │ STANDARD CONFIG    │
@@ -97,27 +77,27 @@ COPY privileges /etc/container/privileges
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
 USER $USER
+# WORKDIR /home/$USER/.cache/repo/public
+# RUN git pull
 WORKDIR /home/$USER
 
-EXPOSE 8080/tcp
-
-RUN /bin/mkdir -p /home/$USER/.config
-
-# *** ZSH ***
-RUN /bin/ln -fsv /home/$USER/.config/repo/public/zsh /home/$USER/.config/zsh
-RUN /bin/ln -fsv /home/$USER/.config/zsh/rc /home/$USER/.config/zshrc
-# RUN /bin/ln -fsv /mnt/volumes/container/users/coder/zsh/history /home/$USER/.config/.zsh_history
-
+# RUN /bin/mkdir -p /home/$USER/.config
+# 
+# # *** ZSH ***
+# RUN /bin/ln -fsv /home/$USER/.config/repo/public/zsh /home/$USER/.config/zsh
+# RUN /bin/ln -fsv /home/$USER/.config/zsh/rc /home/$USER/.config/zshrc
+# # RUN /bin/ln -fsv /mnt/volumes/container/users/coder/zsh/history /home/$USER/.config/.zsh_history
+# 
 # *** GIT ***
-RUN /bin/ln -fsv /home/$USER/.config/repo/public/git /home/$USER/.config/git
-RUN /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig
-RUN /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials
-  
+# RUN /bin/ln -fsv /home/$USER/.config/repo/public/git /home/$USER/.config/git
+# RUN /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig
+# RUN /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials
+#   
 # *** NEOVIM **
-RUN /bin/ln -fsv /home/$USER/.config/repo/public/nvim /home/$USER/.config/nvim
-
-RUN /bin/mkdir -p /home/$USER/.config/repo
-RUN git clone https://github.com/gautada/config.git /home/$USER/.config/repo/public
+# RUN /bin/ln -fsv /home/$USER/.config/repo/public/nvim /home/$USER/.config/nvim
+# 
+# RUN /bin/mkdir -p /home/$USER/.config/repo
+# RUN git clone https://github.com/gautada/config.git /home/$USER/.config/repo/public
 # 
 RUN /bin/mkdir -p /tmp/podman-run-1001/podman
 RUN /usr/bin/podman system connection add sock unix:///tmp/podman-run-1001/podman/podman.sock
@@ -125,3 +105,5 @@ RUN /usr/bin/podman system connection default sock
  
 # RUN /usr/bin/yarn global add wetty
 # RUN /usr/local/bin/yarn global add wetty
+EXPOSE 8080/tcp
+USER root

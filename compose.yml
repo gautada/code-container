@@ -3,7 +3,7 @@ services:
   deven:
     build:
       args:
-        DEBIAN_VERSION: "latest"
+        DEBIAN_VERSION: "dev" # "latest"
         CONTAINER_VERSION: "0.0.1"
       context: .
       dockerfile: container.build
@@ -14,9 +14,10 @@ services:
     hostname: "deven"
     ports:
       - "8888:8080"
-#     volumes:
-#       - "container:/mnt/volumes/container"
-#       - "backup:/mnt/volumes/backup"
+    privileged: true
+    volumes:
+      - "/Users/mada/Workspace/Volumes/Container:/mnt/volumes/container"
+      - "/Users/mada/Workspace/Volumes/Backup:/mnt/volumes/backup"
 #         
 # volumes:
 #   container:
