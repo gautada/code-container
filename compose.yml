@@ -3,7 +3,7 @@ services:
   deven:
     build:
       args:
-        DEBIAN_VERSION: "dev" # "latest"
+        DEBIAN_VERSION: "latest"
         CONTAINER_VERSION: "0.0.1"
       context: .
       dockerfile: container.build
@@ -16,8 +16,10 @@ services:
       - "8888:8080"
     privileged: true
     volumes:
-      - "/Users/mada/Workspace/Volumes/Container:/mnt/volumes/container"
-      - "/Users/mada/Workspace/Volumes/Backup:/mnt/volumes/backup"
+      # - "/Users/mada/Workspace/Volumes/Container:/mnt/volumes/container"
+      # - "/Users/mada/Workspace/Volumes/Backup:/mnt/volumes/backup"
+      - "/mnt/volumes/container/Workspace/Container:/mnt/volumes/container"
+      - "/mnt/volumes/container//Workspace/Backup:/mnt/volumes/backup"
 #         
 # volumes:
 #   container:

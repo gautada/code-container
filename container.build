@@ -1,5 +1,14 @@
-ARG ALPINE_VERSION="dev"
-FROM gautada/alpine:$ALPINE_VERSION
+ARG ALPINE_VERSION="latest"
+
+FROM gautada/alpine:$ALPINE_VERSION as build
+
+RUN /sbin/apk add --no-cache build-base npm yarn python3 \
+ && /usr/bin/yarn global add wetty \
+ && /bin/tar -zcf /wetty.tgz /usr/local/share/.config /usr/local/bin/wetty 
+
+FROM gautada/alpine:$ALPINE_VERSION as container
+
+ARG USER="coder"
 
 # ╭――――――――――――――――――――╮
 # │ METADATA           │
@@ -11,9 +20,8 @@ LABEL description="DEVelopment ENvironment (deven) container."
 # ╭――――――――――――――――――――╮
 # │ USER               │
 # ╰――――――――――――――――――――╯
-ARG USER=coder
-RUN /usr/sbin/usermod --login $USER --home /home/$USER --move-home debian
-RUN /usr/sbin/groupmod --new-name $USER debian
+RUN /usr/sbin/usermod --login $USER --home /home/$USER --move-home busr
+RUN /usr/sbin/groupmod --new-name $USER busr
 
 # ╭――――――――――――――――――――╮
 # │ PACKAGES           │
@@ -23,17 +31,13 @@ RUN /usr/sbin/groupmod --new-name $USER debian
 # RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
 # RUN echo "deb http://http.us.debian.org/debian/ testing non-free contrib main" >> /etc/apt/sources.list
 
-RUN /sbin/apk add --no-cache build-essential \
- 
- # ** NODEJS for WETTY **
- # && /usr/bin/apt-get install --yes npm \
+RUN /sbin/apk add --no-cache nodejs \
  
  # ** VERSION CONTROL **
  # && /usr/bin/apt-get install --yes git \
 
  # ** OPEN SSH **
  && /sbin/apk add --no-cache openssh-server openssh-client \
- # && /usr/bin/apt-get install --yes openssh-server openssh-client \
  
  # ** TEXT EDITOR **
  # && /sbin/apk add --no-cache nvim \
@@ -43,32 +47,25 @@ RUN /sbin/apk add --no-cache build-essential \
  && /sbin/apk add --no-cache podman \
  # && /usr/bin/apt-get install --yes podman \
  # ** PYTHON PACKAGES **
- && /sbin/apk add --no-cache py3-pip \
- # && /usr/bin/apt-get install --yes python3-pip \
- # && /usr/bin/apt-get autoclean \
- # && /usr/bin/apt-get clean
+ && /sbin/apk add --no-cache py3-pip
 
 RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
  && /usr/sbin/usermod --add-subgids 100000-165535 $USER
 
 RUN /usr/bin/pip3 install podman-compose
 
-# WORKDIR /tmp
-# RUN /usr/bin/curl -fsSLO --compressed https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-arm64.tar.xz  \
-#  && /bin/tar -xJf "/tmp/node-v18.16.0-linux-arm64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
-#  && /bin/ln -fsv /usr/local/bin/node /usr/local/bin/nodejs \
-#  && /bin/rm -fv /tmp/node-v18.16.0-linux-arm64.tar.xz \
-#  && /usr/local/bin/npm install --global yarn \
-#  && /usr/local/bin/yarn global add wetty
-# WORKDIR /
-
 RUN /bin/ln -fsv /mnt/volumes/container/Workspace /home/$USER/Workspace \
  && /bin/ln -fsv /mnt/volumes/container/Compose /home/$USER/Compose
+
+WORKDIR /
+COPY --from=build /wetty.tgz /wetty.tgz
+RUN /bin/tar -zxvf /wetty.tgz \
+ && /bin/rm -f /wetty.tgz
 
 # ╭――――――――――――――――――――╮
 # │ STANDARD CONFIG    │
 # ╰――――――――――――――――――――╯
-# COPY backup /etc/container/entrypoint
+# COPY backup /etc/container/backup
 COPY deven.health /etc/container/health.d/deven.health
 COPY entrypoint /etc/container/entrypoint
 COPY privileges /etc/container/privileges
@@ -77,33 +74,25 @@ COPY privileges /etc/container/privileges
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
 USER $USER
-# WORKDIR /home/$USER/.cache/repo/public
-# RUN git pull
 WORKDIR /home/$USER
-
-# RUN /bin/mkdir -p /home/$USER/.config
-# 
-# # *** ZSH ***
-# RUN /bin/ln -fsv /home/$USER/.config/repo/public/zsh /home/$USER/.config/zsh
-# RUN /bin/ln -fsv /home/$USER/.config/zsh/rc /home/$USER/.config/zshrc
-# # RUN /bin/ln -fsv /mnt/volumes/container/users/coder/zsh/history /home/$USER/.config/.zsh_history
-# 
-# *** GIT ***
-# RUN /bin/ln -fsv /home/$USER/.config/repo/public/git /home/$USER/.config/git
-# RUN /bin/ln -fsv /home/$USER/.config/git/config /home/$USER/.gitconfig
-# RUN /bin/ln -fsv /home/$USER/.config/git/credentials /home/$USER/.git-credentials
-#   
-# *** NEOVIM **
-# RUN /bin/ln -fsv /home/$USER/.config/repo/public/nvim /home/$USER/.config/nvim
-# 
-# RUN /bin/mkdir -p /home/$USER/.config/repo
-# RUN git clone https://github.com/gautada/config.git /home/$USER/.config/repo/public
-# 
-RUN /bin/mkdir -p /tmp/podman-run-1001/podman
-RUN /usr/bin/podman system connection add sock unix:///tmp/podman-run-1001/podman/podman.sock
-RUN /usr/bin/podman system connection default sock
  
-# RUN /usr/bin/yarn global add wetty
-# RUN /usr/local/bin/yarn global add wetty
+RUN /bin/mkdir -p /tmp/podman-run-1001/podman \
+ # && /bin/touch /tmp/podman-run-1001/podman/podman.sock \
+ && /usr/bin/podman system connection add sock unix:///tmp/podman-run-1001/podman/podman.sock \
+ &&  /usr/bin/podman system connection default sock
+
+# ╭――――――――――――――――――――╮
+# │FINAL CONTAIner     │
+# ╰――――――――――――――――――――╯
+FROM scratch
+COPY --from=container / /
+ENTRYPOINT ["/usr/bin/container-entrypoint"]
+VOLUME /mnt/volumes/backup
+VOLUME /mnt/volumes/configmaps
+VOLUME /mnt/volumes/container
+VOLUME /mnt/volumes/secrets/namespace
+VOLUME /mnt/volumes/secrets/container
 EXPOSE 8080/tcp
-USER root
+EXPOSE 8888/tcp
+USER coder
+WORKDIR /home/coder

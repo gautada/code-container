@@ -1,4 +1,4 @@
-%privileged ALL = (ALL) NOPASSWD: /usr/sbin/cron
+%privileged ALL = (ALL) NOPASSWD: /usr/sbin/crond
 %privileged ALL = (ALL) NOPASSWD: /bin/chown
 %privileged ALL = (ALL) NOPASSWD: /bin/chmod
 %privileged ALL = (ALL) NOPASSWD: /bin/mkdir
