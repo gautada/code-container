@@ -52,7 +52,9 @@ RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
 RUN /usr/bin/pip3 install podman-compose
 
 RUN /bin/ln -fsv /mnt/volumes/container/Workspace /home/$USER/Workspace \
- && /bin/ln -fsv /mnt/volumes/container/Compose /home/$USER/Compose
+ && /bin/ln -fsv /mnt/volumes/container/Compose /home/$USER/Compose \
+ && /bin/ln -fsv /mnt/volumes/container/Backup /home/$USER/Backup \
+ && /bin/ln -fsv /mnt/volumes/container/Container /home/$USER/Container 
 
 WORKDIR /
 COPY --from=build /wetty.tgz /wetty.tgz
@@ -77,6 +79,8 @@ RUN /bin/mkdir -p /tmp/podman-run-1001/podman \
  # && /bin/touch /tmp/podman-run-1001/podman/podman.sock \
  && /usr/bin/podman system connection add sock unix:///tmp/podman-run-1001/podman/podman.sock \
  &&  /usr/bin/podman system connection default sock
+
+RUN /bin/rm -rf /home/$USER/.zshrc
 
 # ╭――――――――――――――――――――╮
 # │FINAL CONTAIner     │

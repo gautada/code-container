@@ -32,6 +32,12 @@ container_entrypoint() {
   /bin/cp /home/$WETTY_USER/.ssh/id_rsa.pub /home/$WETTY_USER/.ssh/authorized_keys
   /bin/chmod 600 /home/$WETTY_USER/.ssh/authorized_keys
  fi
+
+ /bin/mkdir -p /mnt/volumes/container/Backup \
+               /mnt/volumes/container/Compose \
+               /mnt/volumes/container/Container \
+               /mnt/volumes/container/Workspace
+
  /usr/local/bin/wetty --port 8080 --ssh-host localhost --ssh-user $WETTY_USER \
                                    --ssh-auth publickey --ssh-key /home/$WETTY_USER/.ssh/id_rsa --force-ssh \
                                    --title $WETTY_TITLE --command $WETTY_COMMAD --log-level debug
