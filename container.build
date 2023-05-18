@@ -10,7 +10,6 @@ FROM gautada/alpine:$ALPINE_VERSION as container
 # ╭――――――――――――――――――――╮
 # │ METADATA           │
 # ╰――――――――――――――――――――╯
-ARG USER="coder"
 LABEL source="https://github.com/gautada/deven-container.git"
 LABEL maintainer="Adam Gautier <adam@gautier.org>"
 LABEL description="DEVelopment ENvironment (deven) container."
@@ -18,18 +17,14 @@ LABEL description="DEVelopment ENvironment (deven) container."
 # ╭――――――――――――――――――――╮
 # │ USER               │
 # ╰――――――――――――――――――――╯
-RUN /usr/sbin/usermod --login $USER --home /home/$USER --move-home busr
-RUN /usr/sbin/groupmod --new-name $USER busr
+ARG USER="nvim"
+RUN /usr/sbin/usermod --login $USER --home /home/$USER --move-home alpine
+RUN /usr/sbin/groupmod --new-name $USER alpine
 
 # ╭――――――――――――――――――――╮
 # │ PACKAGES           │
 # ╰――――――――――――――――――――╯
-# build-base yarn npm git openssh-client openssh tmux tpm neovim neovim-doc
-# zsh nerd-fonts-all podman python3-pip
-# RUN /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
-# RUN echo "deb http://http.us.debian.org/debian/ testing non-free contrib main" >> /etc/apt/sources.list
-
-RUN /sbin/apk add --no-cache nodejs \
+RUN /sbin/apk add --no-cache tmux \
  
  # ** OPEN SSH **
  && /sbin/apk add --no-cache openssh-server \
@@ -97,5 +92,5 @@ VOLUME /mnt/volumes/secrets/namespace
 VOLUME /mnt/volumes/secrets/container
 EXPOSE 8080/tcp
 EXPOSE 8888/tcp
-USER coder
+USER nvim
 WORKDIR /home/coder
