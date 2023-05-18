@@ -93,4 +93,4 @@ VOLUME /mnt/volumes/secrets/container
 EXPOSE 8080/tcp
 EXPOSE 8888/tcp
 USER nvim
-WORKDIR /home/coder
+WORKDIR /home/nvim
