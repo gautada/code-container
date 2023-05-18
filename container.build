@@ -35,8 +35,7 @@ RUN /sbin/apk add --no-cache nodejs \
  && /sbin/apk add --no-cache openssh-server openssh-client \
  
  # ** TEXT EDITOR **
- # && /sbin/apk add --no-cache nvim \
- # && /usr/bin/apt-get install --yes neovim \
+ && /sbin/apk add --no-cache build-base neovim neovim-doc \
  
  # ** CONTAINER MANAGER **
  && /sbin/apk add --no-cache fuse-overlayfs podman \
@@ -46,11 +45,11 @@ RUN /sbin/apk add --no-cache nodejs \
  && /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
 
 RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
- && /usr/sbin/usermod --add-subgids 100000-165535 $USER
+ && /usr/sbin/usermod --add-subgids 100000-165535 $USER \
 
-RUN /usr/bin/pip3 install podman-compose
+ && /usr/bin/pip3 install podman-compose \
 
-RUN /bin/ln -fsv /mnt/volumes/container/Workspace /home/$USER/Workspace \
+ && /bin/ln -fsv /mnt/volumes/container/Workspace /home/$USER/Workspace \
  && /bin/ln -fsv /mnt/volumes/container/Compose /home/$USER/Compose \
  && /bin/ln -fsv /mnt/volumes/container/Backup /home/$USER/Backup \
  && /bin/ln -fsv /mnt/volumes/container/Container /home/$USER/Container 
@@ -77,9 +76,9 @@ WORKDIR /home/$USER
 RUN /bin/mkdir -p /tmp/podman-run-1001/podman \
  # && /bin/touch /tmp/podman-run-1001/podman/podman.sock \
  && /usr/bin/podman system connection add sock unix:///tmp/podman-run-1001/podman/podman.sock \
- &&  /usr/bin/podman system connection default sock
+ &&  /usr/bin/podman system connection default sock \
 
-RUN /bin/rm -rf /home/$USER/.zshrc
+ && /bin/rm -rf /home/$USER/.zshrc
 
 # ╭――――――――――――――――――――╮
 # │FINAL CONTAIner     │
