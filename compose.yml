@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  deven:
+  neovim:
     build:
       args:
         DEBIAN_VERSION: "latest"
@@ -9,10 +9,10 @@ services:
       dockerfile: container.build
       no_cache: true
       tags:
-        - "deven:dev"
-        - "gautada/deven:dev"
-    image: "deven:dev"
-    hostname: "deven"
+        - "neovim:dev"
+        - "gautada/neovim:dev"
+    image: "neovim:dev"
+    hostname: "neovim"
     ports:
       - "8888:8080"
     privileged: true

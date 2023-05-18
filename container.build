@@ -1,10 +1,10 @@
 ARG ALPINE_VERSION="latest"
 
-FROM gautada/alpine:$ALPINE_VERSION as build
-
-RUN /sbin/apk add --no-cache build-base npm yarn python3 \
- && /usr/bin/yarn global add wetty \
- && /bin/tar -zcf /wetty.tgz /usr/local/share/.config /usr/local/bin/wetty 
+# FROM gautada/alpine:$ALPINE_VERSION as build
+# 
+# RUN /sbin/apk add --no-cache build-base npm yarn python3 \
+#  && /usr/bin/yarn global add wetty \
+#  && /bin/tar -zcf /wetty.tgz /usr/local/share/.config /usr/local/bin/wetty 
 
 FROM gautada/alpine:$ALPINE_VERSION as container
 # ╭――――――――――――――――――――╮
@@ -32,7 +32,8 @@ RUN /usr/sbin/groupmod --new-name $USER busr
 RUN /sbin/apk add --no-cache nodejs \
  
  # ** OPEN SSH **
- && /sbin/apk add --no-cache openssh-server openssh-client \
+ && /sbin/apk add --no-cache openssh-server \
+ # openssh-client \
  
  # ** TEXT EDITOR **
  && /sbin/apk add --no-cache build-base neovim neovim-doc \ 
@@ -40,14 +41,15 @@ RUN /sbin/apk add --no-cache nodejs \
  # /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing jedi-language-server
 
  # ** CONTAINER MANAGER **
- && /sbin/apk add --no-cache fuse-overlayfs podman \
+ && /sbin/apk add --no-cache podman \ 
+ # fuse-overlayfs podman \
  # ** PYTHON PACKAGES **
  && /sbin/apk add --no-cache py3-pip \
 
- && /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
+ && /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl \
 
-RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
- && /usr/sbin/usermod --add-subgids 100000-165535 $USER \
+# RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
+#  && /usr/sbin/usermod --add-subgids 100000-165535 $USER \
 
  && /usr/bin/pip3 install podman-compose \
 
@@ -57,9 +59,9 @@ RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
  && /bin/ln -fsv /mnt/volumes/container/Container /home/$USER/Container 
 
 WORKDIR /
-COPY --from=build /wetty.tgz /wetty.tgz
-RUN /bin/tar -zxf /wetty.tgz \
- && /bin/rm -f /wetty.tgz
+# COPY --from=build /wetty.tgz /wetty.tgz
+# RUN /bin/tar -zxf /wetty.tgz \
+#  && /bin/rm -f /wetty.tgz
 
 # ╭――――――――――――――――――――╮
 # │ STANDARD CONFIG    │
@@ -75,15 +77,15 @@ COPY privileges /etc/container/privileges
 USER $USER
 WORKDIR /home/$USER
  
-RUN /bin/mkdir -p /tmp/podman-run-1001/podman \
- # && /bin/touch /tmp/podman-run-1001/podman/podman.sock \
- && /usr/bin/podman system connection add sock unix:///tmp/podman-run-1001/podman/podman.sock \
- &&  /usr/bin/podman system connection default sock \
+# RUN /bin/mkdir -p /tmp/podman-run-1001/podman \
+#  # && /bin/touch /tmp/podman-run-1001/podman/podman.sock \
+#  && /usr/bin/podman system connection add sock unix:///tmp/podman-run-1001/podman/podman.sock \
+#  &&  /usr/bin/podman system connection default sock \
 
- && /bin/rm -rf /home/$USER/.zshrc
+RUN /bin/rm -rf /home/$USER/.zshrc
 
 # ╭――――――――――――――――――――╮
-# │FINAL CONTAIner     │
+# │FINAL CONTAINER     │
 # ╰――――――――――――――――――――╯
 FROM scratch
 COPY --from=container / /
