@@ -15,4 +15,4 @@
 
 %privileged ALL = (ALL) NOPASSWD: /usr/bin/tee
 
-%privileged ALL = (ALL) NOPASSWD: /usr/bin/apt-get
+%privileged ALL = (ALL) NOPASSWD: /sbin/apk
