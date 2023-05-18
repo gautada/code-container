@@ -8,8 +8,8 @@
 
 
 container_version() {
- # /usr/bin/nvim --version | head -1 | awk -F 'v' '{print $2}'
- echo "0.0.0"
+ /usr/bin/nvim --version | head -1 | awk -F 'v' '{print $2}'
+ # echo "0.0.0"
 }
 
 container_entrypoint() {
