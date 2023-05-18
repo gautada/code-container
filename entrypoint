@@ -42,6 +42,6 @@ container_entrypoint() {
  # /usr/local/bin/wetty --port 8080 --ssh-host localhost --ssh-user $WETTY_USER \
  #                                   --ssh-auth publickey --ssh-key /home/$WETTY_USER/.ssh/id_rsa --force-ssh \
  #                                   --title $WETTY_TITLE --command $WETTY_COMMAD --log-level debug
- /usr/bin/tmux new -s deven
- # /usr/bin/tail -f /dev/null
+ # /usr/bin/tmux new -s deven
+ /usr/bin/tail -f /dev/null
 }
