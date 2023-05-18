@@ -35,8 +35,9 @@ RUN /sbin/apk add --no-cache nodejs \
  && /sbin/apk add --no-cache openssh-server openssh-client \
  
  # ** TEXT EDITOR **
- && /sbin/apk add --no-cache build-base neovim neovim-doc \
- 
+ && /sbin/apk add --no-cache build-base neovim neovim-doc \ 
+ && /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing lua-language-server \
+
  # ** CONTAINER MANAGER **
  && /sbin/apk add --no-cache fuse-overlayfs podman \
  # ** PYTHON PACKAGES **
