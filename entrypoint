@@ -29,7 +29,7 @@ container_entrypoint() {
  # if [ ! -f /home/$WETTY_USER/.ssh/id_rsa ] ; then
  #  /bin/mkdir /home/$WETTY_USER/.ssh
  #  /bin/chmod 700 /home/$WETTY_USER/.ssh
- 3  /usr/bin/ssh-keygen -t rsa -N '' -f /home/$WETTY_USER/.ssh/id_rsa
+ #  /usr/bin/ssh-keygen -t rsa -N '' -f /home/$WETTY_USER/.ssh/id_rsa
  #  /bin/cp /home/$WETTY_USER/.ssh/id_rsa.pub /home/$WETTY_USER/.ssh/authorized_keys
  #  /bin/chmod 600 /home/$WETTY_USER/.ssh/authorized_keys
  # fi
@@ -42,6 +42,6 @@ container_entrypoint() {
  # /usr/local/bin/wetty --port 8080 --ssh-host localhost --ssh-user $WETTY_USER \
  #                                   --ssh-auth publickey --ssh-key /home/$WETTY_USER/.ssh/id_rsa --force-ssh \
  #                                   --title $WETTY_TITLE --command $WETTY_COMMAD --log-level debug
- # /usr/bin/tmux new -s deven
- tail -f /dev/null
+ /usr/bin/tmux new -s deven
+ # /usr/bin/tail -f /dev/null
 }

@@ -15,12 +15,12 @@ services:
     hostname: "neovim"
     ports:
       - "8888:8080"
-    privileged: true
+    # privileged: true
     volumes:
       # - "/Users/mada/Workspace/Volumes/Container:/mnt/volumes/container"
       # - "/Users/mada/Workspace/Volumes/Backup:/mnt/volumes/backup"
-      - "/mnt/volumes/container/Workspace/Container:/mnt/volumes/container"
-      - "/mnt/volumes/container//Workspace/Backup:/mnt/volumes/backup"
+      - "/mnt/volumes/container//Container:/mnt/volumes/container"
+      - "/mnt/volumes/container/Backup:/mnt/volumes/backup"
 #         
 # volumes:
 #   container:
