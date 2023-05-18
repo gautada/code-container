@@ -10,6 +10,7 @@ FROM gautada/alpine:$ALPINE_VERSION as container
 # ╭――――――――――――――――――――╮
 # │ METADATA           │
 # ╰――――――――――――――――――――╯
+ARG USER="coder"
 LABEL source="https://github.com/gautada/deven-container.git"
 LABEL maintainer="Adam Gautier <adam@gautier.org>"
 LABEL description="DEVelopment ENvironment (deven) container."
@@ -71,7 +72,6 @@ COPY privileges /etc/container/privileges
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
-ARG USER="coder"
 USER $USER
 WORKDIR /home/$USER
  
