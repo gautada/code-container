@@ -39,8 +39,7 @@ RUN /sbin/apk add --no-cache nodejs \
  # && /usr/bin/apt-get install --yes neovim \
  
  # ** CONTAINER MANAGER **
- && /sbin/apk add --no-cache podman \
- # && /usr/bin/apt-get install --yes podman \
+ && /sbin/apk add --no-cache fuse-overlayfs podman \
  # ** PYTHON PACKAGES **
  && /sbin/apk add --no-cache py3-pip \
 
