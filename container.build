@@ -7,9 +7,6 @@ RUN /sbin/apk add --no-cache build-base npm yarn python3 \
  && /bin/tar -zcf /wetty.tgz /usr/local/share/.config /usr/local/bin/wetty 
 
 FROM gautada/alpine:$ALPINE_VERSION as container
-
-ARG USER="coder"
-
 # ╭――――――――――――――――――――╮
 # │ METADATA           │
 # ╰――――――――――――――――――――╯
@@ -44,7 +41,9 @@ RUN /sbin/apk add --no-cache nodejs \
  && /sbin/apk add --no-cache podman \
  # && /usr/bin/apt-get install --yes podman \
  # ** PYTHON PACKAGES **
- && /sbin/apk add --no-cache py3-pip
+ && /sbin/apk add --no-cache py3-pip \
+
+ && /sbin/apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
 
 RUN /usr/sbin/usermod --add-subuids 100000-165535 $USER \
  && /usr/sbin/usermod --add-subgids 100000-165535 $USER
@@ -72,6 +71,7 @@ COPY privileges /etc/container/privileges
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
+ARG USER="coder"
 USER $USER
 WORKDIR /home/$USER
  
