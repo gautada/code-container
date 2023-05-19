@@ -3,8 +3,8 @@ services:
   neovim:
     build:
       args:
-        DEBIAN_VERSION: "latest"
-        CONTAINER_VERSION: "0.0.1"
+        ALPINE_VERSION: "latest"
+        CONTAINER_VERSION: "0.9.0"
       context: .
       dockerfile: container.build
       no_cache: true

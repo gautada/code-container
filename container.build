@@ -17,7 +17,7 @@ LABEL description="DEVelopment ENvironment (deven) container."
 # ╭――――――――――――――――――――╮
 # │ USER               │
 # ╰――――――――――――――――――――╯
-ARG USER="nvim"
+ARG USER="neovim"
 RUN /usr/sbin/usermod --login $USER --home /home/$USER --move-home alpine
 RUN /usr/sbin/groupmod --new-name $USER alpine
 
@@ -92,5 +92,5 @@ VOLUME /mnt/volumes/secrets/namespace
 VOLUME /mnt/volumes/secrets/container
 EXPOSE 8080/tcp
 EXPOSE 8888/tcp
-USER nvim
-WORKDIR /home/nvim
+USER neovim
+WORKDIR /home/neovim
